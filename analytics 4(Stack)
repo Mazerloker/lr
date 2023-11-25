@@ -1,0 +1,188 @@
+# Завдання 1: 
+
+def isValid(s):
+    stack = []
+    mapping = {')': '(', '}': '{', ']': '['}
+
+    for char in s:
+        if char in mapping:
+            top_element = stack.pop() if stack else '#'
+            if mapping[char] != top_element:
+                return False
+        else:
+            stack.append(char)
+
+    return not stack
+
+# Завдання 2: 
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+def inorderTraversal(root):
+    result = []
+    if root:
+        result.extend(inorderTraversal(root.left))
+        result.append(root.val)
+        result.extend(inorderTraversal(root.right))
+    return result
+
+root1 = TreeNode(1)
+root1.right = TreeNode(2)
+root1.right.left = TreeNode(3)
+print(inorderTraversal(root1))
+
+root2 = None
+print(inorderTraversal(root2))
+
+root3 = TreeNode(1)
+print(inorderTraversal(root3))
+
+# Завдання 3:
+class MinStack:
+
+    def __init__(self):
+        self.stack = []
+        self.min_stack = []
+
+    def push(self, val: int) -> None:
+        self.stack.append(val)
+        if not self.min_stack or val <= self.min_stack[-1]:
+            self.min_stack.append(val)
+
+    def pop(self) -> None:
+        if self.stack:
+            if self.stack[-1] == self.min_stack[-1]:
+                self.min_stack.pop()
+            self.stack.pop()
+
+    def top(self) -> int:
+        if self.stack:
+            return self.stack[-1]
+
+    def getMin(self) -> int:
+        if self.min_stack:
+            return self.min_stack[-1]
+
+minStack = MinStack()
+minStack.push(-2)
+minStack.push(0)
+minStack.push(-3)
+print(minStack.getMin())  
+minStack.pop()
+print(minStack.top())      
+print(minStack.getMin())   
+
+# Завдання 4:
+class MyQueue:
+
+    def __init__(self):
+        self.stack_push = []
+        self.stack_pop = []
+
+    def push(self, x: int) -> None:
+        self.stack_push.append(x)
+
+    def pop(self) -> int:
+        if not self.stack_pop:
+            self.move_elements()
+        return self.stack_pop.pop()
+
+    def peek(self) -> int:
+        if not self.stack_pop:
+            self.move_elements()
+        return self.stack_pop[-1]
+
+    def empty(self) -> bool:
+        return not self.stack_push and not self.stack_pop
+
+    def move_elements(self) -> None:
+        while self.stack_push:
+            self.stack_pop.append(self.stack_push.pop())
+
+myQueue = MyQueue()
+myQueue.push(1)
+myQueue.push(2)
+print(myQueue.peek())  
+print(myQueue.pop())   
+print(myQueue.empty()) 
+
+# Завдання 5:
+def decodeString(s: str) -> str:
+    stack = []
+    current_str = ""
+    current_num = 0
+    
+    for char in s:
+        if char.isdigit():
+            current_num = current_num * 10 + int(char)
+        elif char == "[":
+            stack.append((current_str, current_num))
+            current_str, current_num = "", 0
+        elif char == "]":
+            prev_str, num = stack.pop()
+            current_str = prev_str + current_str * num
+        else:
+            current_str += char
+    
+    return current_str
+
+print(decodeString("3[a]2[bc]"))   
+print(decodeString("3[a2[c]]"))    
+print(decodeString("2[abc]3[cd]ef")) 
+
+# Завдання 6:
+def evalRPN(tokens):
+    stack = []
+    
+    for token in tokens:
+        if token.isdigit() or (token[0] == '-' and token[1:].isdigit()):
+            stack.append(int(token))
+        else:
+            operand2 = stack.pop()
+            operand1 = stack.pop()
+            
+            if token == '+':
+                stack.append(operand1 + operand2)
+            elif token == '-':
+                stack.append(operand1 - operand2)
+            elif token == '*':
+                stack.append(operand1 * operand2)
+            elif token == '/':
+                stack.append(int(operand1 / operand2))
+    
+    return stack.pop()
+
+tokens1 = ["2", "1", "+", "3", "*"]
+tokens2 = ["4", "13", "5", "/", "+"]
+tokens3 = ["10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"]
+print(evalRPN(tokens1))  
+print(evalRPN(tokens2))  
+print(evalRPN(tokens3))  
+
+# Завдання 7:
+
+def longestValidParentheses(s):
+    stack = [-1]
+    max_length = 0
+
+    for i in range(len(s)):
+        if s[i] == '(':
+            stack.append(i)
+        else:
+            stack.pop()
+            if not stack:
+                stack.append(i)
+            else:
+                max_length = max(max_length, i - stack[-1])
+
+    return max_length
+
+s1 = "(()"
+s2 = ")()())"
+s3 = ""
+print(longestValidParentheses(s1))  
+print(longestValidParentheses(s2))  
+print(longestValidParentheses(s3))  
