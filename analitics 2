@@ -1,0 +1,241 @@
+# Завдання 1:
+def max_consecutive_ones(nums):
+    max_ones = 0
+    current_ones = 0
+
+    for num in nums:
+        if num == 1:
+            current_ones += 1
+            max_ones = max(max_ones, current_ones)
+        else:
+            current_ones = 0
+
+    return max_ones
+nums1 = [1, 1, 0, 1, 1, 1]
+nums2 = [1, 0, 1, 1, 0, 1]
+
+result1 = max_consecutive_ones(nums1)
+result2 = max_consecutive_ones(nums2)
+
+print(f"Input: {nums1}\nOutput: {result1}")
+print(f"Input: {nums2}\nOutput: {result2}")
+
+# Завдання 2:
+def count_numbers_with_even_digits(nums):
+    def count_digits(num):
+        count = 0
+        while num > 0:
+            count += 1
+            num //= 10
+        return count
+
+    count_even_digits = 0
+
+    for num in nums:
+        if count_digits(num) % 2 == 0:
+            count_even_digits += 1
+
+    return count_even_digits
+
+
+nums1 = [12, 345, 2, 6, 7896]
+nums2 = [555, 901, 482, 1771]
+
+result1 = count_numbers_with_even_digits(nums1)
+result2 = count_numbers_with_even_digits(nums2)
+
+print(f"Input: {nums1}\nOutput: {result1}")
+print(f"Input: {nums2}\nOutput: {result2}")
+
+# Завдання 3:
+def sorted_squares(nums):
+    result = [num**2 for num in nums]
+    result.sort()
+    return result
+
+
+nums1 = [-4, -1, 0, 3, 10]
+nums2 = [-7, -3, 2, 3, 11]
+
+result1 = sorted_squares(nums1)
+result2 = sorted_squares(nums2)
+
+print(f"Input: {nums1}\nOutput: {result1}")
+print(f"Input: {nums2}\nOutput: {result2}")
+
+# Завдання 4:
+def duplicate_zeros(arr):
+    i = 0
+    while i < len(arr):
+        if arr[i] == 0:
+            arr.insert(i, 0)
+            arr.pop()
+            i += 1
+        i += 1
+
+arr1 = [1, 0, 2, 3, 0, 4, 5, 0]
+arr2 = [1, 2, 3]
+
+duplicate_zeros(arr1)
+duplicate_zeros(arr2)
+
+print(f"Input: {arr1}\nOutput: {arr1}")
+print(f"Input: {arr2}\nOutput: {arr2}")
+
+# Завдання 5:
+def merge(nums1, m, nums2, n):
+    i = m - 1
+    j = n - 1
+    k = m + n - 1
+
+    while i >= 0 and j >= 0:
+        if nums1[i] > nums2[j]:
+            nums1[k] = nums1[i]
+            i -= 1
+        else:
+            nums1[k] = nums2[j]
+            j -= 1
+        k -= 1
+
+    while j >= 0:
+        nums1[k] = nums2[j]
+        j -= 1
+        k -= 1
+
+nums1_1 = [1, 2, 3, 0, 0, 0]
+m_1 = 3
+nums2_1 = [2, 5, 6]
+n_1 = 3
+
+nums1_2 = [1]
+m_2 = 1
+nums2_2 = []
+n_2 = 0
+
+nums1_3 = [0]
+m_3 = 0
+nums2_3 = [1]
+n_3 = 1
+
+merge(nums1_1, m_1, nums2_1, n_1)
+merge(nums1_2, m_2, nums2_2, n_2)
+merge(nums1_3, m_3, nums2_3, n_3)
+
+print(f"Input: {nums1_1}\nOutput: {nums1_1}")
+print(f"Input: {nums1_2}\nOutput: {nums1_2}")
+print(f"Input: {nums1_3}\nOutput: {nums1_3}")
+
+# Завдання 6:
+def remove_duplicates(nums):
+    if not nums:
+        return 0
+
+    unique_count = 1  # Починаємо з одного унікального елемента
+
+    for i in range(1, len(nums)):
+        if nums[i] != nums[i - 1]:
+            nums[unique_count] = nums[i]
+            unique_count += 1
+
+    return unique_count
+
+nums1 = [1, 1, 2]
+nums2 = [0, 0, 1, 1, 1, 2, 2, 3, 3, 4]
+
+result1 = remove_duplicates(nums1)
+result2 = remove_duplicates(nums2)
+
+print(f"Input: {nums1[:result1]}\nOutput: {result1}, nums = {nums1}")
+print(f"Input: {nums2[:result2]}\nOutput: {result2}, nums = {nums2}")
+
+# Завдання 7:
+def check_if_exists(arr):
+    seen = set()
+
+    for num in arr:
+        if num * 2 in seen or (num % 2 == 0 and num // 2 in seen):
+            return True
+        seen.add(num)
+
+    return False
+
+arr1 = [10, 2, 5, 3]
+arr2 = [3, 1, 7, 11]
+
+result1 = check_if_exists(arr1)
+result2 = check_if_exists(arr2)
+
+print(f"Input: {arr1}\nOutput: {result1}")
+print(f"Input: {arr2}\nOutput: {result2}")
+
+# Завдання 8:
+def valid_mountain_array(arr):
+    n = len(arr)
+    
+    if n < 3:
+        return False
+    
+    peak_index = arr.index(max(arr))
+    
+    if peak_index == 0 or peak_index == n - 1:
+        return False
+    
+    for i in range(peak_index):
+        if arr[i] >= arr[i + 1]:
+            return False
+    
+    for i in range(peak_index, n - 1):
+        if arr[i] <= arr[i + 1]:
+            return False
+    
+    return True
+
+arr1 = [2, 1]
+arr2 = [3, 5, 5]
+arr3 = [0, 3, 2, 1]
+
+result1 = valid_mountain_array(arr1)
+result2 = valid_mountain_array(arr2)
+result3 = valid_mountain_array(arr3)
+
+print(f"Input: {arr1}\nOutput: {result1}")
+print(f"Input: {arr2}\nOutput: {result2}")
+print(f"Input: {arr3}\nOutput: {result3}")
+
+# Завдання 9:
+def replace_elements(arr):
+    n = len(arr)
+    max_right = -1  # Початково останній елемент має бути замінений на -1
+    
+    for i in range(n - 1, -1, -1):
+        current_element = arr[i]
+        arr[i] = max_right
+        max_right = max(max_right, current_element)
+    
+    return arr
+
+arr1 = [17, 18, 5, 4, 6, 1]
+arr2 = [400]
+
+result1 = replace_elements(arr1)
+result2 = replace_elements(arr2)
+
+print(f"Input: {arr1}\nOutput: {result1}")
+print(f"Input: {arr2}\nOutput: {result2}")
+
+# Завдання 10:
+
+def sort_array_by_parity(nums):
+    even_numbers = [x for x in nums if x % 2 == 0]
+    odd_numbers = [x for x in nums if x % 2 != 0]
+    return even_numbers + odd_numbers
+
+# Приклад використання:
+nums1 = [3, 1, 2, 4]
+nums2 = [0]
+
+result1 = sort_array_by_parity(nums1)
+result2 = sort_array_by_parity(nums2)
+
+print(f"Input: {nums1}\nOutput: {result1}")
+print(f"Input: {nums2}\nOutput: {result2}")
