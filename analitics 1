@@ -1,0 +1,91 @@
+# Завдання 1:
+def reverse_string_recursive(s, index=None):
+    if index is None:
+        index = len(s) - 1
+
+    if index < 0:
+        return
+
+    print(s[index], end="")
+    reverse_string_recursive(s, index - 1)
+
+# Приклад використання:
+input_str = "tiger"
+reverse_string_recursive(input_str)
+
+
+# Завдання 2:
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def swap_pairs(head):
+    if not head or not head.next:
+        return head
+
+    next_node = head.next
+    head.val, next_node.val = next_node.val, head.val
+    head.next = swap_pairs(next_node.next)
+
+    return head
+
+def print_linked_list(head):
+    current = head
+    while current:
+        print(current.val, end=" ")
+        current = current.next
+    print()
+
+head = ListNode(1, ListNode(2, ListNode(3, ListNode(4))))
+print_linked_list(head)
+
+result_head = swap_pairs(head)
+
+print_linked_list(result_head)
+
+# Завдання 3:
+def fibonacci(n):
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        return fibonacci(n - 1) + fibonacci(n - 2)
+
+print(fibonacci(2))  
+print(fibonacci(3))  
+print(fibonacci(4))  
+
+# Завдання 4:
+def climb_stairs(n):
+    if n == 1:
+        return 1
+    elif n == 2:
+        return 2
+    else:
+        return climb_stairs(n - 1) + climb_stairs(n - 2)
+
+print(climb_stairs(2))  
+print(climb_stairs(3))  
+
+# Завдання 5:
+def my_pow(x, n):
+    if n == 0:
+        return 1
+    elif n < 0:
+        x = 1 / x
+        n = -n
+    
+    result = 1.0
+    while n:
+        if n % 2:
+            result *= x
+        x *= x
+        n //= 2
+
+    return result
+
+print(my_pow(2.00000, 10))    
+print(my_pow(2.10000, 3))     
+print(my_pow(2.00000, -2))    
