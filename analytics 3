@@ -1,0 +1,292 @@
+# Завдання 1: 
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def merge_sorted_lists(list1, list2):
+    dummy = ListNode()
+    current = dummy
+
+    while list1 is not None and list2 is not None:
+        if list1.val <= list2.val:
+            current.next = list1
+            list1 = list1.next
+        else:
+            current.next = list2
+            list2 = list2.next
+
+        current = current.next
+
+    if list1 is not None:
+        current.next = list1
+    elif list2 is not None:
+        current.next = list2
+
+    return dummy.next
+
+list1 = ListNode(1, ListNode(2, ListNode(4)))
+list2 = ListNode(1, ListNode(3, ListNode(4)))
+
+result = merge_sorted_lists(list1, list2)
+
+# Print the result
+while result is not None:
+    print(result.val, end=" ")
+    result = result.next
+
+# Завдання 2:
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def remove_duplicates(head):
+    current = head
+
+    while current is not None and current.next is not None:
+        if current.val == current.next.val:
+            current.next = current.next.next
+        else:
+            current = current.next
+
+    return head
+
+head1 = ListNode(1, ListNode(1, ListNode(2)))
+head2 = ListNode(1, ListNode(1, ListNode(2, ListNode(3, ListNode(3)))))
+
+result1 = remove_duplicates(head1)
+result2 = remove_duplicates(head2)
+
+def print_linked_list(head):
+    while head is not None:
+        print(head.val, end=" ")
+        head = head.next
+    print()
+
+print_linked_list(result1)  
+print_linked_list(result2) 
+
+# Завдання 3:
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def has_cycle(head):
+    if not head or not head.next:
+        return False
+
+    slow = head
+    fast = head.next
+
+    while slow != fast:
+        if not fast or not fast.next:
+            return False
+
+        slow = slow.next
+        fast = fast.next.next
+
+    return True
+
+
+head1 = ListNode(3)
+head1.next = ListNode(2)
+head1.next.next = ListNode(0)
+head1.next.next.next = ListNode(-4)
+head1.next.next.next.next = head1.next 
+
+
+head2 = ListNode(1)
+head2.next = ListNode(2)
+
+# Check for cycles
+result1 = has_cycle(head1)
+result2 = has_cycle(head2)
+
+print(result1)  
+print(result2)  
+
+# Завдання 4:
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def reorder_list(head):
+    if not head or not head.next:
+        return head
+
+    slow, fast = head, head
+    while fast.next and fast.next.next:
+        slow = slow.next
+        fast = fast.next.next
+
+    second_half = slow.next
+    slow.next = None
+
+    prev, current = None, second_half
+    while current:
+        temp = current.next
+        current.next = prev
+        prev = current
+        current = temp
+
+    first, second = head, prev
+    while second:
+        temp1, temp2 = first.next, second.next
+        first.next = second
+        second.next = temp1
+        first, second = temp1, temp2
+
+    return head
+
+head = ListNode(1)
+head.next = ListNode(2)
+head.next.next = ListNode(3)
+head.next.next.next = ListNode(4)
+
+reorder_list(head)
+
+while head:
+    print(head.val, end=" ")
+    head = head.next
+
+# Завдання 5:
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def delete_node(node):
+    node.val = node.next.val
+    node.next = node.next.next
+
+head = ListNode(4)
+head.next = ListNode(5)
+head.next.next = ListNode(1)
+head.next.next.next = ListNode(9)
+
+node_to_delete = head.next  
+
+delete_node(node_to_delete)
+
+while head:
+    print(head.val, end=" ")
+    head = head.next
+
+# Завдання 6:
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def double_number_linked_list(head):
+    carry = 0
+    current = head
+
+    while current:
+        current.val = current.val * 2 + carry
+        carry, current.val = divmod(current.val, 10)
+        if current.next is None and carry:
+            current.next = ListNode(carry)
+            break
+        current = current.next
+
+    return head
+
+
+# Завдання 7:
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+import heapq
+
+def merge_k_sorted_lists(lists):
+    heap = []
+    for lst in lists:
+        while lst:
+            heapq.heappush(heap, lst.val)
+            lst = lst.next
+    
+    dummy = ListNode()
+    current = dummy
+    while heap:
+        current.next = ListNode(heapq.heappop(heap))
+        current = current.next
+    
+    return dummy.next
+
+# Завдання 8:
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def reverse_k_group(head, k):
+    def reverse_list(node, k):
+        prev = None
+        curr = node
+        count = 0
+        while curr and count < k:
+            next_node = curr.next
+            curr.next = prev
+            prev = curr
+            curr = next_node
+            count += 1
+        return prev, curr
+
+    def get_length(node):
+        length = 0
+        while node:
+            length += 1
+            node = node.next
+        return length
+
+    length = get_length(head)
+    dummy = ListNode(0)
+    dummy.next = head
+    current = dummy
+
+    while length >= k:
+        start, end = reverse_list(current.next, k)
+        current.next = start
+        current = end
+        length -= k
+
+    return dummy.next
+
+# Завдання 9:
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+def partition(head, x):
+    if not head or not head.next:
+        return head
+
+    before_head = ListNode(0)
+    after_head = ListNode(0)
+
+    before = before_head
+    after = after_head
+
+    current = head
+
+    while current:
+        if current.val < x:
+            before.next = current
+            before = before.next
+        else:
+            after.next = current
+            after = after.next
+
+        current = current.next
+
+    before.next = after_head.next
+    after.next = None
+
+    return before_head.next
